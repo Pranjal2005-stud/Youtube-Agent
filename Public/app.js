@@ -98,41 +98,33 @@ const HHTAssistant = () => {
   );
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 to-orange-50">
+    <div className="flex flex-col w-full h-screen bg-gradient-to-br from-blue-50 to-orange-50">
 
       {/* HEADER */}
-      <div className="bg-white shadow-md border-b border-gray-200 p-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <HHTLogo className="h-14" />
-            <div className="border-l-2 border-gray-300 h-12 mx-2"></div>
-            <h1 className="text-2xl font-bold">
-              <span className="bg-gradient-to-r from-blue-900 to-blue-700 text-transparent bg-clip-text">HHT</span>
-              <span className="text-gray-700"> Training Assistant</span>
-            </h1>
-          </div>
+      <div className="bg-white w-full shadow-md border-b border-gray-200 p-4">
+        <div className=" mx-auto relative flex items-center justify-center">
+
+          {/* LEFT LOGO */}
+          <img
+            src="/logo.png"
+            alt="HHT Logo"
+            className="h-10 w-auto object-contain absolute left-0"
+          />
+
+          {/* CENTER TITLE */}
+          <h1 className="text-2xl font-bold text-center">
+            <span className="text-gray-700">HHT Youtube Assistant</span>
+          </h1>
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col px-4">
 
-        {/* Toggle Buttons */}
-        <div className="flex bg-white shadow-sm rounded-full border border-gray-200 mb-6 justify-center max-w-3xl mx-auto">
-          {["Crisp", "Conceptual", "Comprehensive"].map((label) => (
-            <button
-              key={label}
-              onClick={() => setResponseMode(label)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition
-              ${responseMode === label ? "bg-yellow-300 text-gray-900" : "text-gray-500 hover:bg-gray-100"}`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex my-auto flex-col px-4">
+
 
         {/* Messages / Videos */}
-        <div className="flex-1 overflow-y-auto pt-2 pb-28 max-w-4xl w-full mx-auto">
+        <div className="flex-1 pt-2 pb-28 max-w-4xl w-full my-auto mx-auto">
           {messages.map((message, idx) => (
             <div key={idx} className="mb-8">
               {message.type === "assistant" && (
@@ -156,7 +148,7 @@ const HHTAssistant = () => {
         </div>
 
         {/* INPUT BAR FIXED AT BOTTOM */}
-        <div className="w-full max-w-3xl mx-auto pb-10">
+        <div className="w-full max-w-3xl my-auto mx-auto pb-10">
           <div className="flex items-center gap-3 w-full">
             <input
               type="text"
@@ -164,7 +156,7 @@ const HHTAssistant = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown} // updated here
               placeholder="Type your question here..."
-              className="flex-1 px-5 py-3 border-2 border-yellow-300 rounded-full text-gray-700"
+              className="flex-1 px-5 py-3 border-2 border-yellow-300 rounded-full text-gray-700 focus:outline-none focus-visible:outline-none focus:ring-0 focus:ring-offset-0"
             />
             <button
               onClick={handleSubmit}
