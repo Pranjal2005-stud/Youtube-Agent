@@ -70,21 +70,36 @@ const HHTAssistant = () => {
     }
   };
 
+  // Simplified HHT logo (no cloud)
+  const HHTLogoSmall = ({ className = "h-16" }) => (
+    <div className={`flex items-center justify-center gap-1 ${className}`}>
+      <span style={{fontWeight: '900', fontSize: '2.5rem', color: '#003366'}}>HHT</span>
+      {/* Optional small accent for the T in yellow */}
+      <span style={{fontWeight: '900', fontSize: '2.5rem', color: '#FFA500'}}>T</span>
+    </div>
+  );
+
+  // Check if user has searched at least once
   const hasSearched = messages.length > 0;
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 to-orange-50">
 
+      {/* HEADER */}
+      <div className="bg-white shadow-md border-b border-gray-200 p-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-center">
+          <HHTLogoSmall />
+        </div>
+      </div>
+
       {/* MAIN CONTENT */}
       <div className="flex-1 flex flex-col px-4">
 
         {!hasSearched ? (
-          // WELCOME SCREEN before search - only text and input
+          // WELCOME SCREEN before search
           <div className="flex flex-col items-center justify-center flex-1 max-w-xl mx-auto text-center px-6">
-            <h1 className="text-4xl font-extrabold text-gray-900 mb-3">
-              Welcome to HHT Training Assistant
-            </h1>
-            <p className="text-gray-600 text-lg mb-10 max-w-md">
+            <h2 className="text-3xl font-bold mb-3 text-gray-900">Welcome to HHT Training Assistant</h2>
+            <p className="text-gray-700 mb-10">
               Ask me anything you'd like to learn, and I'll help you find the best educational resources!
             </p>
 
