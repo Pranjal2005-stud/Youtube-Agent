@@ -107,26 +107,82 @@ const HHTAssistant = () => {
 </header>
 
 
-      {/* MAIN CENTERED AREA */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4">
-        
-        {/* Crisp / Conceptual / Comprehensive Toggle */}
-        <div className="flex bg-white shadow-sm rounded-full border border-gray-200 mb-6">
-          {["Crisp", "Conceptual", "Comprehensive"].map((label) => (
-            <button
-              key={label}
-              onClick={() => setResponseMode(label)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition
-              ${
-                responseMode === label
-                  ? "bg-yellow-300 text-gray-900"
-                  : "text-gray-500 hover:bg-gray-100"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+       <div className="flex-1 overflow-y-auto pt-10 pb-28 max-w-4xl w-full mx-auto">
+    {messages.map((message, idx) => (
+      <div key={idx} className="mb-8">
+        <p className="text-lg font-medium text-gray-800 mb-3">
+          {message.type === "assistant" ? "Assistant Response:" : ""}
+        </p>
+
+        <p className="text-gray-700 mb-4">{message.content}</p>
+
+        {message.videoId && (
+          <iframe
+            className="rounded-xl shadow border border-gray-200"
+            width="100%"
+            height="400"
+            src={`https://www.youtube.com/embed/${message.videoId}`}
+            allowFullScreen
+          />
+        )}
+      </div>
+    ))}
+
+    <div ref={messagesEndRef} />
+  </div>
+
+  {/* MAIN CONTENT AREA */}
+<div className="flex-1 flex flex-col px-4">
+
+  {/* RESULTS AREA (scrollable) */}
+  <div className="flex-1 overflow-y-auto pt-10 pb-28 max-w-4xl w-full mx-auto">
+    {messages.map((message, idx) => (
+      <div key={idx} className="mb-8">
+        <p className="text-lg font-medium text-gray-800 mb-3">
+          {message.type === "assistant" ? "Assistant Response:" : ""}
+        </p>
+
+        <p className="text-gray-700 mb-4">{message.content}</p>
+
+        {message.videoId && (
+          <iframe
+            className="rounded-xl shadow border border-gray-200"
+            width="100%"
+            height="400"
+            src={`https://www.youtube.com/embed/${message.videoId}`}
+            allowFullScreen
+          />
+        )}
+      </div>
+    ))}
+
+    <div ref={messagesEndRef} />
+  </div>
+
+  {/* INPUT BAR FIXED AT BOTTOM */}
+  <div className="w-full max-w-3xl mx-auto pb-10">
+    <div className="flex items-center gap-3 w-full">
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={handleKeyPress}  // <-- changed from onKeyPress
+        placeholder="Type your question here..."
+        className="flex-1 px-5 py-3 border-2 border-yellow-300 rounded-full text-gray-700"
+      />
+
+      <button
+        onClick={handleSubmit}
+        disabled={!input.trim() || loading}
+        className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium rounded-full shadow disabled:bg-gray-300"
+      >
+        {loading ? "Thinking..." : "Generate"}
+      </button>
+    </div>
+  </div>
+
+</div>
+
 
         {/* INPUT AREA */}
         <div className="flex items-center gap-3 w-full max-w-3xl">
