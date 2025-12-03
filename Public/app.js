@@ -113,7 +113,7 @@ const HHTAssistant = () => {
 
           {/* CENTER TITLE */}
           <h1 className="text-2xl font-bold text-center">
-            <span className="text-gray-700">HHT Youtube Assistant</span>
+            <span className="text-gray-700">HHT Training Assistant</span>
           </h1>
         </div>
       </div>
