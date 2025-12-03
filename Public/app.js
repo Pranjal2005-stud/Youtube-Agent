@@ -75,15 +75,16 @@ const HHTAssistant = () => {
       {/* HEADER */}
       <div className="bg-white shadow-md border-b border-gray-200 p-4">
         <div className="max-w-5xl mx-auto flex items-center justify-center relative">
+          
+          {/* Logo on top-left */}
+          <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
+            <img src="/images/logo.png" alt="HHT Logo" className="h-10 w-auto" />
+          </div>
+
           {/* Centered Title */}
-          <h1 className="text-xl font-semibold absolute left-1/2 transform -translate-x-1/2">
+          <h1 className="text-xl font-semibold">
             HHT Training Assistant
           </h1>
-
-          {/* Logo on the right */}
-          <div className="absolute right-0">
-            <img src="/path/to/logo.png" alt="HHT Logo" className="h-8 w-auto" />
-          </div>
         </div>
       </div>
 
