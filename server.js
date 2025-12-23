@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "Public", "index.html"));
 });
 
-// YouTube Search Endpoint
+// YouTube Search Endpoint (TOP VIDEOS BY VIEW COUNT)
 app.get("/api/search", async (req, res) => {
     const { query } = req.query;
 
@@ -31,31 +31,35 @@ app.get("/api/search", async (req, res) => {
                     part: "snippet",
                     q: query,
                     type: "video",
-                    maxResults: 1,
+                    maxResults: 8,                
+                    order: "viewCount",          
                     key: process.env.YOUTUBE_API_KEY,
                     videoEmbeddable: "true",
                     relevanceLanguage: "en",
                     safeSearch: "strict",
                 },
-            },
+            }
         );
 
-        if (response.data.items && response.data.items.length > 0) {
-            const video = response.data.items[0];
-            res.json({
-                videoId: video.id.videoId,
-                title: video.snippet.title,
-                description: video.snippet.description,
-                thumbnail: video.snippet.thumbnails.medium.url,
-            });
-        } else {
-            res.status(404).json({ error: "No videos found" });
+        if (!response.data.items || response.data.items.length === 0) {
+            return res.status(404).json({ error: "No videos found" });
         }
+
+        const videos = response.data.items.map(item => ({
+            videoId: item.id.videoId,
+            title: item.snippet.title,
+            description: item.snippet.description,
+            thumbnail: item.snippet.thumbnails.medium.url,
+        }));
+
+        res.json({ videos });
+
     } catch (error) {
         console.error(
             "YouTube API Error:",
-            error.response?.data || error.message,
+            error.response?.data || error.message
         );
+
         res.status(500).json({
             error: "Failed to search YouTube",
             details: error.response?.data?.error?.message || error.message,
@@ -66,4 +70,3 @@ app.get("/api/search", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
