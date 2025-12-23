@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "Public", "index.html"));
 });
 
-// YouTube Search Endpoint (TOP VIDEOS BY VIEW COUNT)
+// 🔥 Educational YouTube Search Endpoint (NO SHORTS)
 app.get("/api/search", async (req, res) => {
     const { query } = req.query;
 
@@ -23,26 +23,30 @@ app.get("/api/search", async (req, res) => {
         return res.status(400).json({ error: "Query parameter is required" });
     }
 
+    // Improve search intent
+    const refinedQuery = `${query} explained tutorial`;
+
     try {
         const response = await axios.get(
             "https://www.googleapis.com/youtube/v3/search",
             {
                 params: {
                     part: "snippet",
-                    q: query,
+                    q: refinedQuery,
                     type: "video",
-                    maxResults: 8,                
-                    order: "viewCount",          
-                    key: process.env.YOUTUBE_API_KEY,
+                    maxResults: 5,                 // quality > quantity
+                    order: "relevance",            // conceptual match
+                    videoDuration: "long",         // ❌ shorts removed
                     videoEmbeddable: "true",
                     relevanceLanguage: "en",
                     safeSearch: "strict",
+                    key: process.env.YOUTUBE_API_KEY,
                 },
             }
         );
 
         if (!response.data.items || response.data.items.length === 0) {
-            return res.status(404).json({ error: "No videos found" });
+            return res.status(404).json({ error: "No educational videos found" });
         }
 
         const videos = response.data.items.map(item => ({
@@ -68,5 +72,5 @@ app.get("/api/search", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
